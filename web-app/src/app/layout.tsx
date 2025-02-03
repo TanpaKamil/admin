@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SidebarWrapper from "@/components/SidebarWrapper"; // Import komponen baru
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex gap-4">
+          <SidebarWrapper /> {/* Menggunakan SidebarWrapper agar tidak error */}
+          <div className="p-8 flex-1">{children}</div>
+        </div>
       </body>
     </html>
   );

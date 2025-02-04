@@ -56,7 +56,7 @@ const LoginPage = () => {
   return (
     <>
   
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-2xl font-semibold text-center text-black">Admin Login</h2>
           {message && <p className="text-red-500 text-sm text-center">{message}</p>}

@@ -1,14 +1,15 @@
 import { signToken } from "@/helpers/jwt";
-import { User } from "@/types";
-import admins from "../../../../public/db.json";
+import { Admin } from "@/types";
+import adminsDataRaw from "@/../public/db.json"; // Import raw JSON data
 import { serialize } from "cookie";
 import { errHandler } from "@/helpers/errHandler";
 
+// ✅ Explicitly cast JSON data to `Admin[]`
+const admins: Admin[] = adminsDataRaw.admins as Admin[];
 
-function getUserByCredentials(password: string, email: string): User | undefined {
-  return admins.find((user: User) => user.password === password && user.email === email);
+function getUserByCredentials(password: string, email: string): Admin | undefined {
+  return admins.find((admin) => admin.password === password && admin.email === email);
 }
-
 
 export async function POST(request: Request) {
   try {
@@ -18,12 +19,12 @@ export async function POST(request: Request) {
       throw { message: "Missing required fields", status: 400 };
     }
 
-    const user = getUserByCredentials(body.password, body.email);
-    if (!user) throw { message: "Invalid password or email", status: 401 };
+    const admin = getUserByCredentials(body.password, body.email);
+    if (!admin) throw { message: "Invalid password or email", status: 401 };
 
-    if (user.role !== "admin") throw { message: "Access denied", status: 403 };
+    if (admin.role !== "admin") throw { message: "Access denied", status: 403 };
 
-    const token = signToken({ email: user.email, _id: user._id });
+    const token = signToken({ email: admin.email, _id: admin._id });
 
     const serializedCookie = serialize("Authorization", `Bearer ${token}`, {
       httpOnly: true,

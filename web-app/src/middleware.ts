@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyWithJose } from "./helpers/jwt";
+import { verifyWithJose } from "@/helpers/jwt";
 
 export async function middleware(request: NextRequest) {
     const authorization = request.cookies.get("Authorization");
@@ -8,15 +8,15 @@ export async function middleware(request: NextRequest) {
     const isApiLogin = request.nextUrl.pathname.startsWith("/api/login");
     const isApiAuthRequired = request.nextUrl.pathname.startsWith("/api/");
     const isStaticFile =
-        request.nextUrl.pathname.startsWith("/_next/") 
-        request.nextUrl.pathname.startsWith("/favicon.ico") 
-        request.nextUrl.pathname.startsWith("/public/") 
-        request.nextUrl.pathname.startsWith("/static/")
+        request.nextUrl.pathname.startsWith("/_next/") ||
+        request.nextUrl.pathname.startsWith("/favicon.ico") ||
+        request.nextUrl.pathname.startsWith("/public/") ||
+        request.nextUrl.pathname.startsWith("/static/");
 
     if (isStaticFile) {
         return NextResponse.next(); 
     }
-   
+
     if (isApiLogin) {
         return NextResponse.next();
     }
@@ -53,7 +53,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
 }
-
 
 export const config = {
     matcher: ["/((?!_next/|favicon.ico|static/|public/|api/login).*)"], // ✅ Allows static files

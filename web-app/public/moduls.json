@@ -1,0 +1,17 @@
+{
+    "modules": [
+      {
+        "id": 101,
+        "name": "Frontend Basics",
+        "status": "active",
+        "users": [1, 2]
+      },
+      {
+        "id": 102,
+        "name": "Backend APIs",
+        "status": "active",
+        "users": [1]
+      }
+    ]
+  }
+  

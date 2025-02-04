@@ -27,8 +27,8 @@ const Sidebar = () => {
     console.log("Logout button clicked"); // Debugging log
   
     try {
-      await fetch("/api/logout", { method: "GET" }); // Call the logout API
-      window.location.href = "/login"; // Ensure full redirect
+      await fetch("/api/logout", { method: "GET" })
+      window.location.href = "/login"; 
     } catch (error) {
       console.error("Logout failed", error);
     }
@@ -71,11 +71,7 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {/* Page Content */}
-      <div className="flex-1 p-6">
-        <h2 className="text-2xl font-semibold">Dashboard Content</h2>
-        <p>Welcome to the Management section.</p>
-      </div>
+    
 
       {/* Logout Confirmation Modal */}
       {showModal && (

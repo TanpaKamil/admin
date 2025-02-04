@@ -1,23 +1,18 @@
-[
+{
+  "admins": [
     {
-      "_id": "1a2b3c4d5e6f7g8h9i0j",
-      "email": "admin1@example.com",
+      "_id": "1",
+      "email": "admin@example.com",
       "username": "admin1",
-      "password": "haha",
+      "password": "admin123",
       "role": "admin"
     },
     {
-      "_id": "2b3c4d5e6f7g8h9i0j1a",
-      "email": "admin2@example.com",
+      "_id": "2",
+      "email": "superadmin@example.com",
       "username": "admin2",
-      "password": "hihi", 
+      "password": "supersecure",
       "role": "admin"
-    },
-    {
-        "_id": "2b3c4d576374644272387",
-        "email": "admin3@example.com",
-        "username": "admin3",
-        "password": "huhu", 
-        "role": "bukan admin"
     }
   ]
+}

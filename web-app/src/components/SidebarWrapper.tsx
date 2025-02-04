@@ -7,7 +7,7 @@ export default function SidebarWrapper() {
   const pathname = usePathname();
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
-  if (isAuthPage) return null; // Jangan tampilkan Sidebar di halaman login
+  if (isAuthPage) return null; // ✅ Hide sidebar on login/register
 
   return <Sidebar />;
 }

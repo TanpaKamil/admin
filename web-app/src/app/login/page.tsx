@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image"; // ✅ Import Next.js Image for logo
+import logo from "@/../public/Logo_Adaptive.png"; // ✅ Import logo
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -54,44 +55,52 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-  
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-center text-black">Admin Login</h2>
-          {message && <p className="text-red-500 text-sm text-center">{message}</p>}
-          <form onSubmit={handleLogin} className="mt-4">
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                name="email"
-                className="w-full p-2 border rounded-lg text-black placeholder-gray-400"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="w-full p-2 border rounded-lg text-black placeholder-gray-400"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-              Login
-            </button>
-          </form>
+    <div className="flex min-h-screen items-center justify-center bg-gray-900">
+      <div className="w-full max-w-md bg-gray-800 shadow-lg rounded-lg p-8">
+        {/* ✅ Logo - Set dark background behind it */}
+        <div className="flex justify-center mb-6 p-3  rounded-lg">
+          <Image src={logo} alt="Adaptive AI Logo" width={180} height={60} />
         </div>
+
+        {/* ✅ Title */}
+        <h2 className="text-2xl font-bold text-center text-white">Admin Login</h2>
+        {message && <p className="text-red-500 text-sm text-center">{message}</p>}
+
+        {/* ✅ Login Form */}
+        <form onSubmit={handleLogin} className="mt-4">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-300">Email</label>
+            <input
+              type="email"
+              name="email"
+              className="w-full p-3 border rounded-lg text-gray-900 bg-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-300">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="w-full p-3 border rounded-lg text-gray-900 bg-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-orange-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition"
+          >
+            Login
+          </button>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 

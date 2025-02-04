@@ -2,3 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ✅ Set Global Background Color */
+html, body {
+    background-color: #0f172a; /* Dark Navy Blue (from your palette) */
+    color: white; /* Ensure text remains visible */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease-in-out; /* Smooth transition */
+  }
+  
+  /* ✅ Prevents white flash when navigating */
+  #__next {
+    background-color: #0f172a; /* Dark Navy Blue */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  

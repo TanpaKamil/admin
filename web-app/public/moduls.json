@@ -1,17 +1,76 @@
 {
-    "modules": [
-      {
-        "id": 101,
-        "name": "Frontend Basics",
-        "status": "active",
-        "users": [1, 2]
-      },
-      {
-        "id": 102,
-        "name": "Backend APIs",
-        "status": "active",
-        "users": [1]
-      }
-    ]
-  }
-  
+  "modules": [
+    {
+      "id": 101,
+      "name": "Frontend Basics",
+      "status": "active",
+      "users": [1, 2]
+    },
+    {
+      "id": 102,
+      "name": "Backend APIs",
+      "status": "active",
+      "users": [1]
+    },
+    {
+      "id": 103,
+      "name": "Database Management",
+      "status": "inactive",
+      "users": [3, 4]
+    },
+    {
+      "id": 104,
+      "name": "ReactJS Advanced",
+      "status": "active",
+      "users": [2, 5, 6]
+    },
+    {
+      "id": 105,
+      "name": "Node.js Fundamentals",
+      "status": "active",
+      "users": [1, 3]
+    },
+    {
+      "id": 106,
+      "name": "AI & Machine Learning",
+      "status": "inactive",
+      "users": [7, 8]
+    },
+    {
+      "id": 107,
+      "name": "Cloud Computing",
+      "status": "active",
+      "users": [4, 9]
+    },
+    {
+      "id": 108,
+      "name": "Cybersecurity Essentials",
+      "status": "inactive",
+      "users": [10]
+    },
+    {
+      "id": 109,
+      "name": "Data Structures & Algorithms",
+      "status": "active",
+      "users": [5, 6, 7]
+    },
+    {
+      "id": 110,
+      "name": "DevOps Fundamentals",
+      "status": "active",
+      "users": [2, 8, 9]
+    },
+    {
+      "id": 111,
+      "name": "UI/UX Design",
+      "status": "inactive",
+      "users": [3, 10]
+    },
+    {
+      "id": 112,
+      "name": "Blockchain Development",
+      "status": "active",
+      "users": [1, 7, 9]
+    }
+  ]
+}

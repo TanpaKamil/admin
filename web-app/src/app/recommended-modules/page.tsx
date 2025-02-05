@@ -28,8 +28,8 @@ const RecommendedModules = () => {
   
       // ✅ Extract and filter only recommended modules (Ensure recommended is included)
       const recommendedModules = data
-        .filter((mod: any) => mod.isFeatured) // Only modules with `isFeatured: true`
-        .map((mod: any) => ({
+        .filter((mod) => mod.isFeatured) // Only modules with `isFeatured: true`
+        .map((mod) => ({
           _id: mod._id.toString(),
           title: mod.title,
           isActive: mod.isActive,

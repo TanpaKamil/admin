@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 import { database } from "@/lib/mongodb"; // ✅ Import MongoDB connection
-import { ObjectId } from "mongodb";
+
 
 // ✅ GET: Fetch All Users
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const db = await database;
     const users = await db.collection("users").find().toArray(); // ✅ Fetch all users

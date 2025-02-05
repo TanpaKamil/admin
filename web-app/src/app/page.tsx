@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FaUsers, FaCogs, FaLayerGroup, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaUsers, FaLayerGroup, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Logo from "@/../public/Logo_Adaptive.png";
-import dynamic from "next/dynamic";
+
 
 // ✅ Lazy-load Chart.js for performance
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
 
 const Dashboard = () => {
   const [loading, setLoading] = useState<boolean>(true);

@@ -29,7 +29,7 @@ const UsersPage = () => {
       }
 
       // ✅ Format user data correctly
-      const updatedUsers = data.map((user: any) => ({
+      const updatedUsers = data.map((user) => ({
         _id: user._id.toString(),
         email: user.email,
         username: user.username || "Unknown User",

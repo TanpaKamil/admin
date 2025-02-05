@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Module } from "@/types";
-import SidebarWrapper from "@/components/SidebarWrapper";
 import Logo from "@/../public/Logo_Adaptive.png";
 
 const ActiveModules = () => {
@@ -29,7 +28,7 @@ const ActiveModules = () => {
 
       // ✅ Extract only required fields and filter active modules
       const updatedModules = data
-        .map((mod: any) => ({
+        .map((mod) => ({
           _id: mod._id.toString(),
           title: mod.title,
           isActive: mod.isActive,

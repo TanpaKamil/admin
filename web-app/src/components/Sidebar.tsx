@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   FaBars,
@@ -18,7 +17,7 @@ import {
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
+ 
 
   const menuItems = [
     { name: "Dashboard", icon: <FaCogs />, path: "/" }, // ✅ Default page

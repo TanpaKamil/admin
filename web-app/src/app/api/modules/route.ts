@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { database } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+
 
 export async function GET() {
   try {

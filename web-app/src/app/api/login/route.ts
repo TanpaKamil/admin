@@ -1,7 +1,6 @@
 import { database } from "@/lib/mongodb"; // Import MongoDB connection
 import { signToken } from "@/helpers/jwt";
 import { serialize } from "cookie";
-import { errHandler } from "@/helpers/errHandler";
 import { comparePass } from "@/helpers/comparePass"; // Import comparePass function
 
 export async function POST(request: Request) {
@@ -49,6 +48,6 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    return errHandler(error);
+    console.log("Error logging in:", error);
   }
 }

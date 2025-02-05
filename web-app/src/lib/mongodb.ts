@@ -1,6 +1,6 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion, Db } from "mongodb";
 
-const uri = process.env.MONGODB_URI || "";
+const uri: string = process.env.MONGODB_URI || "";
 
 if (!uri) {
   throw new Error("MONGODB_URI is not defined in .env file");
@@ -9,9 +9,12 @@ if (!uri) {
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
+// ✅ Use `globalThis` instead of `var` for better TypeScript safety
+const globalForMongo = globalThis as unknown as { _mongoClientPromise?: Promise<MongoClient> };
+
+// ✅ In development, reuse existing connection to prevent re-creating on every HMR refresh
 if (process.env.NODE_ENV === "development") {
-  // Use a global variable to preserve connection in dev mode (Next.js HMR)
-  if (!(global as any)._mongoClientPromise) {
+  if (!globalForMongo._mongoClientPromise) {
     client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
@@ -19,11 +22,11 @@ if (process.env.NODE_ENV === "development") {
         deprecationErrors: true,
       },
     });
-    (global as any)._mongoClientPromise = client.connect();
+    globalForMongo._mongoClientPromise = client.connect();
   }
-  clientPromise = (global as any)._mongoClientPromise;
+  clientPromise = globalForMongo._mongoClientPromise;
 } else {
-  // In production, create a new client
+  // ✅ In production, create a new client
   client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -34,5 +37,5 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect();
 }
 
-// Export database connection
-export const database = clientPromise.then((client) => client.db("test"));
+// ✅ Export a fully typed database connection
+export const database: Promise<Db> = clientPromise.then((client) => client.db("test"));

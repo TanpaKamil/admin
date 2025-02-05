@@ -8,7 +8,7 @@ export async function GET(
   context: { params?: Record<string, string> }
 ) {
   try {
-    if (!context.params || !context.params._id) {
+    if (!context.params || !context.params.id) {
       return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
     }
 
@@ -19,13 +19,13 @@ export async function GET(
     }
 
     const db = await database;
-    const module = await db.collection("modulemasters").findOne({ _id: new ObjectId(moduleId) });
+    const moduleData = await db.collection("modulemasters").findOne({ _id: new ObjectId(moduleId) });
 
-    if (!module) {
+    if (!moduleData) {
       return NextResponse.json({ message: "Module not found" }, { status: 404 });
     }
 
-    return NextResponse.json(module);
+    return NextResponse.json(moduleData);
   } catch (error) {
     console.error("Error fetching module:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

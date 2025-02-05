@@ -28,7 +28,7 @@ const InactiveModules = () => {
 
       // ✅ Extract only required fields and filter inactive modules
       const updatedModules = data
-        .map((mod: any) => ({
+        .map((mod) => ({
           _id: mod._id.toString(),
           title: mod.title,
           isActive: mod.isActive,

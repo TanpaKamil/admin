@@ -37,8 +37,10 @@ const LoginPage = () => {
       let data;
       try {
         data = JSON.parse(text); // Try parsing JSON
-      } catch (error) {
+      } catch (err) {
+        console.log(err);
         throw new Error("Unexpected server response. Please try again.");
+        
       }
 
       if (!response.ok) {

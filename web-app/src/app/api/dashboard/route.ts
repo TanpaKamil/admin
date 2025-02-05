@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 import { database } from "@/lib/mongodb"; // Import MongoDB connection
 
 export async function GET() {

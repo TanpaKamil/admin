@@ -1,38 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { database } from "@/lib/mongodb"; // ✅ Import MongoDB connection
+import { database } from "@/lib/mongodb"; // Ensure correct MongoDB connection
 
-export async function PATCH(request: NextRequest, { params }: { params: { id?: string } }) {
+interface RouteParams {
+  params: { id: string };
+}
+
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    if (!params?.id || !ObjectId.isValid(params.id)) {
+    // ✅ Validate `id`
+    if (!params.id || !ObjectId.isValid(params.id)) {
       return NextResponse.json({ message: "Invalid Module ID" }, { status: 400 });
     }
 
     const moduleId = new ObjectId(params.id);
     const db = await database;
 
-    // ✅ Find the current recommendation status
-    const module = await db.collection("modulemasters").findOne({ _id: moduleId });
-    if (!module) {
+    // ✅ Find the module
+    const moduleData = await db.collection("modulemasters").findOne({ _id: moduleId });
+
+    if (!moduleData) {
       return NextResponse.json({ message: "Module not found" }, { status: 404 });
     }
 
-    // ✅ Toggle recommendation status (isFeatured field)
-    const updatedResult = await db.collection("modulemasters").updateOne(
+    // ✅ Toggle `isFeatured` (Recommended Status)
+    const updatedRecommendation = !moduleData.isFeatured;
+    const result = await db.collection("modulemasters").updateOne(
       { _id: moduleId },
-      { $set: { isFeatured: !module.isFeatured } }
+      { $set: { isFeatured: updatedRecommendation } }
     );
 
-    if (updatedResult.matchedCount === 0) {
-      return NextResponse.json({ message: "Module update failed" }, { status: 500 });
+    if (result.modifiedCount === 0) {
+      return NextResponse.json({ message: "Failed to update module recommendation" }, { status: 500 });
     }
 
-    // ✅ Fetch the updated module
-    const updatedModule = await db.collection("modulemasters").findOne({ _id: moduleId });
-
     return NextResponse.json({
-      message: "Module recommendation updated",
-      module: updatedModule,
+      message: "Module recommendation status updated",
+      module: { ...moduleData, isFeatured: updatedRecommendation },
     });
   } catch (error) {
     console.error("Error updating module recommendation:", error);

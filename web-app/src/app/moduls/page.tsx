@@ -29,7 +29,7 @@ const ModulesPage = () => {
       }
   
       // ✅ Extract only required fields
-      const updatedModules = data.map((mod: any) => ({
+      const updatedModules = data.map((mod) => ({
         _id: mod._id.toString(),
         title: mod.title,
         isActive: mod.isActive,
@@ -80,6 +80,8 @@ const ModulesPage = () => {
         )
       );
     } catch (error) {
+      console.log(error);
+      
       setError("Failed to update module status");
     }
   };
@@ -105,6 +107,8 @@ const ModulesPage = () => {
         )
       );
     } catch (error) {
+      console.log(error);
+      
       setError("Failed to update recommendation status");
     }
   };

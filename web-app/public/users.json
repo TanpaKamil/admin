@@ -1,0 +1,85 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "role": "admin",
+        "status": "active",
+        "modules": [101, 102, 103]
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [104, 105]
+      },
+      {
+        "id": 3,
+        "name": "Michael Brown",
+        "email": "michael.brown@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [106, 107, 108]
+      },
+      {
+        "id": 4,
+        "name": "Emily Johnson",
+        "email": "emily.johnson@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [109, 110]
+      },
+      {
+        "id": 5,
+        "name": "Robert Wilson",
+        "email": "robert.wilson@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [101, 103]
+      },
+      {
+        "id": 6,
+        "name": "Sarah Taylor",
+        "email": "sarah.taylor@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [102, 106]
+      },
+      {
+        "id": 7,
+        "name": "David Anderson",
+        "email": "david.anderson@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [104, 107]
+      },
+      {
+        "id": 8,
+        "name": "Sophia Martinez",
+        "email": "sophia.martinez@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [105, 109]
+      },
+      {
+        "id": 9,
+        "name": "Daniel Harris",
+        "email": "daniel.harris@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [108, 110]
+      },
+      {
+        "id": 10,
+        "name": "Olivia White",
+        "email": "olivia.white@example.com",
+        "role": "user",
+        "status": "active",
+        "modules": [101, 107, 110]
+      }
+    ]
+  }
+  

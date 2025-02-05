@@ -1,0 +1,179 @@
+{
+  "modules": [
+    {
+      "id": 101,
+      "name": "Frontend Basics",
+      "status": "active",
+      "users": [1, 2],
+      "documents": [
+        {
+          "fileName": "HTML & CSS Basics.pdf",
+          "fileSize": 420345,
+          "status": "completed",
+          "result": {
+            "summaries": ["Introduction to HTML", "CSS Styling Basics"],
+            "keyConcepts": ["HTML tags", "CSS Selectors", "Box Model"],
+            "exercises": ["Create a webpage using HTML", "Style it using CSS"]
+          },
+          "createdAt": "2025-01-27T16:33:26.999Z",
+          "updatedAt": "2025-01-27T16:35:45.234Z"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "name": "Backend APIs",
+      "status": "active",
+      "users": [1],
+      "documents": [
+        {
+          "fileName": "REST API Best Practices.pdf",
+          "fileSize": 512789,
+          "status": "processing",
+          "result": {
+            "summaries": [],
+            "keyConcepts": [],
+            "exercises": []
+          },
+          "createdAt": "2025-01-28T10:00:15.000Z",
+          "updatedAt": "2025-01-28T10:00:15.000Z"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "name": "Database Management",
+      "status": "inactive",
+      "users": [3, 4],
+      "documents": []
+    },
+    {
+      "id": 104,
+      "name": "ReactJS Advanced",
+      "status": "active",
+      "users": [2, 5, 6],
+      "documents": [
+        {
+          "fileName": "Advanced React Hooks.pdf",
+          "fileSize": 634500,
+          "status": "completed",
+          "result": {
+            "summaries": ["Deep dive into React Hooks", "State management with Context API"],
+            "keyConcepts": ["useState", "useEffect", "useReducer"],
+            "exercises": ["Refactor a component using hooks"]
+          },
+          "createdAt": "2025-01-29T09:45:00.000Z",
+          "updatedAt": "2025-01-29T09:50:30.000Z"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "name": "Node.js Fundamentals",
+      "status": "active",
+      "users": [1, 3],
+      "documents": [
+        {
+          "fileName": "NodeJS Async Programming.pdf",
+          "fileSize": 756000,
+          "status": "failed",
+          "result": {
+            "summaries": [],
+            "keyConcepts": [],
+            "exercises": []
+          },
+          "createdAt": "2025-01-30T14:00:00.000Z",
+          "updatedAt": "2025-01-30T14:05:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "name": "AI & Machine Learning",
+      "status": "inactive",
+      "users": [7, 8],
+      "documents": []
+    },
+    {
+      "id": 107,
+      "name": "Cloud Computing",
+      "status": "active",
+      "users": [4, 9],
+      "documents": [
+        {
+          "fileName": "AWS Cloud Fundamentals.pdf",
+          "fileSize": 650300,
+          "status": "completed",
+          "result": {
+            "summaries": ["Introduction to AWS Services", "EC2, S3, Lambda"],
+            "keyConcepts": ["Cloud scalability", "Serverless computing"],
+            "exercises": ["Deploy a static website on S3"]
+          },
+          "createdAt": "2025-02-01T12:15:00.000Z",
+          "updatedAt": "2025-02-01T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "name": "Cybersecurity Essentials",
+      "status": "inactive",
+      "users": [10],
+      "documents": []
+    },
+    {
+      "id": 109,
+      "name": "Data Structures & Algorithms",
+      "status": "active",
+      "users": [5, 6, 7],
+      "documents": [
+        {
+          "fileName": "Sorting Algorithms Explained.pdf",
+          "fileSize": 485000,
+          "status": "processing",
+          "result": {
+            "summaries": [],
+            "keyConcepts": [],
+            "exercises": []
+          },
+          "createdAt": "2025-02-02T15:00:00.000Z",
+          "updatedAt": "2025-02-02T15:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "name": "DevOps Fundamentals",
+      "status": "active",
+      "users": [2, 8, 9],
+      "documents": []
+    },
+    {
+      "id": 111,
+      "name": "UI/UX Design",
+      "status": "inactive",
+      "users": [3, 10],
+      "documents": []
+    },
+    {
+      "id": 112,
+      "name": "Blockchain Development",
+      "status": "active",
+      "users": [1, 7, 9],
+      "documents": [
+        {
+          "fileName": "Blockchain Smart Contracts.pdf",
+          "fileSize": 789200,
+          "status": "completed",
+          "result": {
+            "summaries": ["Understanding Smart Contracts", "Ethereum & Solidity"],
+            "keyConcepts": ["Decentralization", "Consensus Mechanisms"],
+            "exercises": ["Write a simple Solidity contract"]
+          },
+          "createdAt": "2025-02-03T18:30:00.000Z",
+          "updatedAt": "2025-02-03T18:40:00.000Z"
+        }
+      ]
+    }
+  ]
+}

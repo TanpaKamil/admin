@@ -10,7 +10,6 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa";
-import SidebarWrapper from "@/components/SidebarWrapper"; // ✅ Sidebar
 import Logo from "@/../public/Logo_Adaptive.png";
 import dynamic from "next/dynamic";
 
@@ -24,7 +23,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeModules: 0,
-    inactiveModules: 0,
+    unactiveModules: 0,
     totalDocuments: 0,
   });
 
@@ -83,8 +82,8 @@ const Dashboard = () => {
           <div className="p-6 bg-gray-800 rounded-lg shadow-lg flex items-center justify-between">
             <FaTimesCircle className="text-3xl text-red-500" />
             <div>
-              <h3 className="text-lg font-semibold">Inactive Modules</h3>
-              <p className="text-2xl font-bold">{stats.inactiveModules}</p>
+              <h3 className="text-lg font-semibold">Unactive Modules</h3>
+              <p className="text-2xl font-bold">{stats.unactiveModules}</p>
             </div>
           </div>
 

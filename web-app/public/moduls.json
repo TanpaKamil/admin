@@ -43,7 +43,7 @@
     {
       "id": 103,
       "name": "Database Management",
-      "status": "inactive",
+      "status": "unactive",
       "users": [3, 4],
       "documents": []
     },
@@ -90,7 +90,7 @@
     {
       "id": 106,
       "name": "AI & Machine Learning",
-      "status": "inactive",
+      "status": "unactive",
       "users": [7, 8],
       "documents": []
     },
@@ -117,7 +117,7 @@
     {
       "id": 108,
       "name": "Cybersecurity Essentials",
-      "status": "inactive",
+      "status": "unactive",
       "users": [10],
       "documents": []
     },
@@ -151,7 +151,7 @@
     {
       "id": 111,
       "name": "UI/UX Design",
-      "status": "inactive",
+      "status": "unactive",
       "users": [3, 10],
       "documents": []
     },

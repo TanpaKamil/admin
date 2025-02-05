@@ -30,7 +30,7 @@ const Users = () => {
 
   // ✅ Toggle user status (Active <-> Inactive)
   const toggleStatus = async (id: number, currentStatus: string) => {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    const newStatus = currentStatus === "active" ? "unactive" : "active";
 
     try {
       const response = await fetch(`/api/users/${id}`, {

@@ -3,7 +3,7 @@ export type AdminRole = "admin";
 export type UserRole = "user"; // ✅ Users can only be "user"
 
 // ✅ Status types
-export type UserStatus = "active" | "inactive";
+export type UserStatus = "active" | "unactive";
 
 // ✅ Admin type (Admin Only)
 export interface Admin {
@@ -48,7 +48,7 @@ export interface DocumentData {
 }
 
 // ✅ Define module status options
-export type ModuleStatus = "active" | "inactive";
+export type ModuleStatus = "active" | "unactive";
 
 // ✅ Define document processing status
 export type DocumentStatus = "processing" | "completed" | "failed";

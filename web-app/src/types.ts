@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 // ✅ Role types
 export type AdminRole = "admin";
 export type UserRole = "user"; // ✅ Users can only be "user"
@@ -16,53 +18,37 @@ export interface Admin {
 
 // ✅ User type (Only "user" role allowed)
 export interface User {
-  id: number;
-  name: string;
+  _id: string; // ✅ MongoDB ObjectId as a string
   email: string;
-  role: UserRole; // ✅ Users can only be "user"
-  status: UserStatus; // ✅ Only "active" | "inactive"
-  modules: number[]; // ✅ List of module IDs assigned to user
+  username: string; // ✅ Using "username" instead of "name"
+  role: "user" | "admin"; // ✅ Role can be "user" or "admin"
+  imageUrl: string; // ✅ Profile image URL
+  modules: string[]; // ✅ List of module ObjectId strings
+  lastActive: string | null; // ✅ ISO date string or null if never active
 }
+
 
 // ✅ Module type
+
 export interface Module {
 
-  id: number;
+  _id: string;
 
-  name: string;
+  title: string;
 
-  status: ModuleStatus   ; // Allow status to be a string
+  isActive: boolean;
 
-  users: number[];
+  subscriberCount: number[];
 
-  recommended: boolean;
-
-  documents: {
-
-    fileName: string;
-
-    fileSize: number;
-
-    status: string;
-
-    result: {
-
-      summaries: string[];
-
-      keyConcepts: string[];
-
-      exercises: string[];
-
-    };
-
-    createdAt: string;
-
-    updatedAt: string;
-
-  }[];
+  recommended: boolean; // Add the recommended property
 
 }
 
+export interface Chapter {
+  _id: ObjectId | string;
+  title: string;
+  content: string;
+}
 
 // ✅ Define the document structure inside a module
 export interface DocumentData {

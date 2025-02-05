@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   FaBars,
@@ -12,12 +11,13 @@ import {
   FaTimesCircle,
   FaSignOutAlt,
   FaCogs,
+  FaStar,
 } from "react-icons/fa";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
+ 
 
   const menuItems = [
     { name: "Dashboard", icon: <FaCogs />, path: "/" }, // ✅ Default page
@@ -25,7 +25,9 @@ const Sidebar = () => {
     { name: "Users", icon: <FaUser />, path: "/users" },
     { name: "Active Moduls", icon: <FaCheckCircle />, path: "/active-moduls" },
     { name: "Unactive Moduls", icon: <FaTimesCircle />, path: "/unactive-moduls" },
+    { name: "Recommended Modules", icon: <FaStar />, path: "/recommended-modules" }, // ✅ Added new page
   ];
+  
   
 
   const handleLogout = async () => {

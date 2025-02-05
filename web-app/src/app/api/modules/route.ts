@@ -1,17 +1,27 @@
-import modulesData from "@/../public/moduls.json";
-import { Module, ModuleStatus, DocumentData, DocumentStatus } from "@/types";
 import { NextResponse } from "next/server";
+import { database } from "@/lib/mongodb";
 
-// ✅ Ensure modulesData is correctly typed
-const modules: Module[] = modulesData.modules.map((mod) => ({
-  ...mod,
-  status: mod.status as ModuleStatus, // ✅ Ensure "active" | "inactive"
-  documents: mod.documents.map((doc: any) => ({
-    ...doc,
-    status: doc.status as DocumentStatus, // ✅ Ensure "processing" | "completed" | "failed"
-  })) as DocumentData[], // ✅ Ensure correct DocumentData typing
-}));
 
 export async function GET() {
-  return NextResponse.json({ modules });
-}
+  try {
+    const db = await database;
+    const modules = await db
+      .collection("modulemasters")
+      .find({})
+      .project({
+        _id: 1,
+        title: 1,
+        isActive: 1,
+        isFeatured: 1,
+        subscribedUsers: 1,
+      })
+      .toArray();
+
+    
+
+    return NextResponse.json(modules); // ✅ Ensure returning an array
+  } catch (error) {
+    console.error("Error fetching modules:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  }
+};

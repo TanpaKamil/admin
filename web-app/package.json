@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/mongodb": "^4.0.6",
     "apexcharts": "^4.4.0",
     "bcryptjs": "^2.4.3",
     "cookie": "^1.0.2",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.13.0",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",

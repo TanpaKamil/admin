@@ -13,6 +13,13 @@
       "username": "admin2",
       "password": "supersecure",
       "role": "admin"
+    },
+    {
+      "_id": "3",
+      "email": "admin3@example.com",
+      "username": "admin3",
+      "password": "admin3",
+      "role": "bukan admin"
     }
   ]
 }

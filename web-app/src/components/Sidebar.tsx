@@ -11,6 +11,7 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaSignOutAlt,
+  FaCogs,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -19,11 +20,13 @@ const Sidebar = () => {
   const router = useRouter();
 
   const menuItems = [
+    { name: "Dashboard", icon: <FaCogs />, path: "/" }, // ✅ Default page
     { name: "Moduls", icon: <FaBox />, path: "/moduls" },
     { name: "Users", icon: <FaUser />, path: "/users" },
     { name: "Active Moduls", icon: <FaCheckCircle />, path: "/active-moduls" },
     { name: "Unactive Moduls", icon: <FaTimesCircle />, path: "/unactive-moduls" },
   ];
+  
 
   const handleLogout = async () => {
     console.log("Logout button clicked");

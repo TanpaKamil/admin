@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { database } from "@/lib/mongodb"; // Ensure correct MongoDB connection
+import { database } from "@/lib/mongodb";
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
 
 // ✅ GET: Fetch a Module by ID
-export async function GET(
-  request: NextRequest,
-  context: { params?: Record<string, string> }
-) {
+export async function GET(request: NextRequest, data: RouteParams) {
   try {
-    if (!context.params || !context.params.id) {
+    const resolvedParams = await data.params;
+    if (!resolvedParams.id) {
       return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
     }
 
-    const moduleId = context.params.id;
-
+    const moduleId = resolvedParams.id;
     if (!ObjectId.isValid(moduleId)) {
       return NextResponse.json({ message: "Invalid Module ID" }, { status: 400 });
     }
@@ -33,26 +34,23 @@ export async function GET(
 }
 
 // ✅ PATCH: Update Module Status
-export async function PATCH(
-  request: NextRequest,
-  context: { params?: Record<string, string> }
-) {
+export async function PATCH(request: NextRequest, data: RouteParams) {
   try {
-    if (!context.params || !context.params.id) {
+    const resolvedParams = await data.params;
+    if (!resolvedParams.id) {
       return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
     }
 
-    const moduleId = context.params.id;
-
+    const moduleId = resolvedParams.id;
     if (!ObjectId.isValid(moduleId)) {
       return NextResponse.json({ message: "Invalid Module ID" }, { status: 400 });
     }
 
     const { isActive }: { isActive: boolean } = await request.json();
-
     const db = await database;
+    
     const result = await db
-      .collection("modulemasters") // ✅ Ensure correct collection
+      .collection("modulemasters")
       .updateOne({ _id: new ObjectId(moduleId) }, { $set: { isActive } });
 
     if (result.matchedCount === 0) {
@@ -60,7 +58,6 @@ export async function PATCH(
     }
 
     const updatedModule = await db.collection("modulemasters").findOne({ _id: new ObjectId(moduleId) });
-
     return NextResponse.json({
       message: "Module status updated",
       module: updatedModule,

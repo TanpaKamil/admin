@@ -1,24 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { database } from "@/lib/mongodb"; // Ensure correct MongoDB connection
+import { database } from "@/lib/mongodb";
 
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, data : RouteParams) {
   try {
-    // ✅ Validate `id`
-    if (!params.id || !ObjectId.isValid(params.id)) {
+    // ✅ Await params and validate `id`
+    const resolvedParams = await data.params;
+    if (!resolvedParams.id || !ObjectId.isValid(resolvedParams.id)) {
       return NextResponse.json({ message: "Invalid Module ID" }, { status: 400 });
     }
 
-    const moduleId = new ObjectId(params.id);
+    const moduleId = new ObjectId(resolvedParams.id);
     const db = await database;
 
     // ✅ Find the module
     const moduleData = await db.collection("modulemasters").findOne({ _id: moduleId });
-
     if (!moduleData) {
       return NextResponse.json({ message: "Module not found" }, { status: 404 });
     }
@@ -31,7 +31,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     );
 
     if (result.modifiedCount === 0) {
-      return NextResponse.json({ message: "Failed to update module recommendation" }, { status: 500 });
+      return NextResponse.json(
+        { message: "Failed to update module recommendation" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({

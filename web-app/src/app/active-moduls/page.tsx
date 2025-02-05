@@ -19,13 +19,52 @@ const ActiveModules = () => {
   const fetchModules = async () => {
     try {
       const response = await fetch("/api/modules");
-      if (!response.ok) throw new Error("Failed to fetch modules");
+      if (!response.ok) throw new Error(`Failed to fetch modules: ${response.status}`);
+
       const data = await response.json();
-      setModules(data.modules.filter((mod: Module) => mod.status === "active"));
+
+      if (!Array.isArray(data)) {
+        throw new Error(`Invalid API response: Expected an array of modules, got ${typeof data}`);
+      }
+
+      // ✅ Extract only required fields and filter active modules
+      const updatedModules = data
+        .map((mod: any) => ({
+          _id: mod._id.toString(),
+          title: mod.title,
+          isActive: mod.isActive,
+          recommended: mod.isFeatured,
+          subscriberCount: mod.subscribedUsers.length || 0,
+        }))
+        .filter((mod) => mod.isActive); // ✅ Only get active modules
+
+      setModules(updatedModules);
     } catch (err) {
+      console.error("Error fetching modules:", err);
       setError("Failed to load modules");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ Toggle Module Status (Deactivate)
+  const toggleStatus = async (id: string) => {
+    try {
+      const response = await fetch(`/api/modules/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: false }), // ✅ Set inactive
+      });
+
+      if (!response.ok) throw new Error("Failed to update module status");
+
+      // ✅ Update UI immediately
+      setModules((prevModules) =>
+        prevModules.filter((mod) => mod._id !== id) // ✅ Remove deactivated module from list
+      );
+    } catch (error) {
+      console.error("Failed to update module status:", error);
+      setError("Failed to deactivate module");
     }
   };
 
@@ -46,26 +85,35 @@ const ActiveModules = () => {
                 <tr>
                   <th className="border border-gray-700 p-3">Module Name</th>
                   <th className="border border-gray-700 p-3">Status</th>
-                  <th className="border border-gray-700 p-3">Users</th>
+                  <th className="border border-gray-700 p-3">Subscribers</th>
                   <th className="border border-gray-700 p-3">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-gray-800">
                 {modules.map((mod) => (
-                  <tr key={mod.id} className="text-center hover:bg-gray-700 transition">
-                    <td className="border border-gray-700 p-3">{mod.name}</td>
-                    <td className="border border-gray-700 p-3 text-green-400 font-semibold">{mod.status}</td>
-                    <td className="border border-gray-700 p-3">{mod.users.length > 0 ? mod.users.join(", ") : "No users assigned"}</td>
+                  <tr key={mod._id} className="text-center hover:bg-gray-700 transition">
+                    <td className="border border-gray-700 p-3">{mod.title}</td>
+                    <td className="border border-gray-700 p-3 text-green-400 font-semibold">
+                      {mod.isActive ? "Active" : "Inactive"}
+                    </td>
+                    <td className="border border-gray-700 p-3">{mod.subscriberCount}</td>
                     <td className="border border-gray-700 p-3 flex justify-center">
                       <button
                         className="w-[130px] px-4 py-2 rounded text-white bg-red-500 hover:bg-red-700"
-                        onClick={() => console.log(`Deactivate Module ${mod.id}`)}
+                        onClick={() => toggleStatus(mod._id)}
                       >
                         Deactivate
                       </button>
                     </td>
                   </tr>
                 ))}
+                {modules.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="text-center py-4 text-gray-400">
+                      No active modules found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

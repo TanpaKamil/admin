@@ -12,6 +12,7 @@ import {
   FaTimesCircle,
   FaSignOutAlt,
   FaCogs,
+  FaStar,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -25,7 +26,9 @@ const Sidebar = () => {
     { name: "Users", icon: <FaUser />, path: "/users" },
     { name: "Active Moduls", icon: <FaCheckCircle />, path: "/active-moduls" },
     { name: "Unactive Moduls", icon: <FaTimesCircle />, path: "/unactive-moduls" },
+    { name: "Recommended Modules", icon: <FaStar />, path: "/recommended-modules" }, // ✅ Added new page
   ];
+  
   
 
   const handleLogout = async () => {

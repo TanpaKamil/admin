@@ -14,17 +14,56 @@ const InactiveModules = () => {
     fetchModules();
   }, []);
 
-  // ✅ Fetch only INACTIVE modules
+  // ✅ Fetch only INACTIVE modules using the same logic as ModulesPage
   const fetchModules = async () => {
     try {
       const response = await fetch("/api/modules");
-      if (!response.ok) throw new Error("Failed to fetch modules");
+      if (!response.ok) throw new Error(`Failed to fetch modules: ${response.status}`);
+
       const data = await response.json();
-      setModules(data.modules.filter((mod: Module) => mod.status === "unactive"));
+
+      if (!Array.isArray(data)) {
+        throw new Error(`Invalid API response: Expected an array of modules, got ${typeof data}`);
+      }
+
+      // ✅ Extract only required fields and filter inactive modules
+      const updatedModules = data
+        .map((mod: any) => ({
+          _id: mod._id.toString(),
+          title: mod.title,
+          isActive: mod.isActive,
+          recommended: mod.isFeatured,
+          subscriberCount: mod.subscribedUsers.length || 0,
+        }))
+        .filter((mod) => !mod.isActive); // ✅ Only get inactive modules
+
+      setModules(updatedModules);
     } catch (err) {
+      console.error("Error fetching modules:", err);
       setError("Failed to load modules");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ Toggle Module Status (Activate)
+  const toggleStatus = async (id: string) => {
+    try {
+      const response = await fetch(`/api/modules/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: true }), // ✅ Set active
+      });
+
+      if (!response.ok) throw new Error("Failed to update module status");
+
+      // ✅ Update UI immediately
+      setModules((prevModules) =>
+        prevModules.filter((mod) => mod._id !== id) // ✅ Remove activated module from list
+      );
+    } catch (error) {
+      console.error("Failed to update module status:", error);
+      setError("Failed to activate module");
     }
   };
 
@@ -33,8 +72,6 @@ const InactiveModules = () => {
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">
-      
-
       <div className="flex-1 p-6 flex flex-col items-center">
         <Image src={Logo} alt="Adaptive AI Logo" width={200} height={60} className="mb-6" />
         <h2 className="text-3xl font-bold mb-6 text-center text-white">Inactive Modules</h2>
@@ -47,26 +84,35 @@ const InactiveModules = () => {
                 <tr>
                   <th className="border border-gray-700 p-3">Module Name</th>
                   <th className="border border-gray-700 p-3">Status</th>
-                  <th className="border border-gray-700 p-3">Users</th>
+                  <th className="border border-gray-700 p-3">Subscribers</th>
                   <th className="border border-gray-700 p-3">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-gray-800">
                 {modules.map((mod) => (
-                  <tr key={mod.id} className="text-center hover:bg-gray-700 transition">
-                    <td className="border border-gray-700 p-3">{mod.name}</td>
-                    <td className="border border-gray-700 p-3 text-red-400 font-semibold">{mod.status}</td>
-                    <td className="border border-gray-700 p-3">{mod.users.length > 0 ? mod.users.join(", ") : "No users assigned"}</td>
+                  <tr key={mod._id} className="text-center hover:bg-gray-700 transition">
+                    <td className="border border-gray-700 p-3">{mod.title}</td>
+                    <td className="border border-gray-700 p-3 text-red-400 font-semibold">
+                      {mod.isActive ? "Active" : "Inactive"}
+                    </td>
+                    <td className="border border-gray-700 p-3">{mod.subscriberCount}</td>
                     <td className="border border-gray-700 p-3 flex justify-center">
                       <button
                         className="w-[130px] px-4 py-2 rounded text-white bg-green-500 hover:bg-green-700"
-                        onClick={() => console.log(`Activate Module ${mod.id}`)}
+                        onClick={() => toggleStatus(mod._id)}
                       >
                         Activate
                       </button>
                     </td>
                   </tr>
                 ))}
+                {modules.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="text-center py-4 text-gray-400">
+                      No inactive modules found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

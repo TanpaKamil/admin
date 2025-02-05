@@ -1,32 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import modulesData from "@/../public/moduls.json"; // ✅ Import JSON file
-import { Module } from "@/types";
+import { ObjectId } from "mongodb";
+import { database } from "@/lib/mongodb"; // ✅ Import MongoDB connection
 
-// ✅ Ensure modulesData is correctly typed
-let modules: Module[] = modulesData.modules.map((mod) => ({
-  ...mod,
-  status: mod.status as "active" | "unactive",
-}));
+export async function PATCH(request: NextRequest, { params }: { params: { id?: string } }) {
+  try {
+    if (!params?.id || !ObjectId.isValid(params.id)) {
+      return NextResponse.json({ message: "Invalid Module ID" }, { status: 400 });
+    }
 
-// ✅ PATCH: Toggle Module Recommendation
-export async function PATCH(request: NextRequest, context: any) {
-  const params = await context.params; // ✅ Properly await params
-  const moduleId = parseInt(params.id, 10);
+    const moduleId = new ObjectId(params.id);
+    const db = await database;
 
-  if (!moduleId) {
-    return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
+    // ✅ Find the current recommendation status
+    const module = await db.collection("modulemasters").findOne({ _id: moduleId });
+    if (!module) {
+      return NextResponse.json({ message: "Module not found" }, { status: 404 });
+    }
+
+    // ✅ Toggle recommendation status (isFeatured field)
+    const updatedResult = await db.collection("modulemasters").updateOne(
+      { _id: moduleId },
+      { $set: { isFeatured: !module.isFeatured } }
+    );
+
+    if (updatedResult.matchedCount === 0) {
+      return NextResponse.json({ message: "Module update failed" }, { status: 500 });
+    }
+
+    // ✅ Fetch the updated module
+    const updatedModule = await db.collection("modulemasters").findOne({ _id: moduleId });
+
+    return NextResponse.json({
+      message: "Module recommendation updated",
+      module: updatedModule,
+    });
+  } catch (error) {
+    console.error("Error updating module recommendation:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
-
-  const moduleIndex = modules.findIndex((mod) => mod.id === moduleId);
-  if (moduleIndex === -1) {
-    return NextResponse.json({ message: "Module not found" }, { status: 404 });
-  }
-
-  // ✅ Toggle the "recommended" status
-  modules[moduleIndex].recommended = !modules[moduleIndex].recommended;
-
-  return NextResponse.json({
-    message: "Module recommendation updated",
-    module: modules[moduleIndex],
-  });
 }

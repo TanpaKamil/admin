@@ -1,17 +1,29 @@
-import { NextResponse } from "next/server";
-import modulesData from "@/../public/moduls.json"; // ✅ Load modules data
-import usersData from "@/../public/users.json"; // ✅ Load users data
+import { NextRequest, NextResponse } from "next/server";
+import { database } from "@/lib/mongodb"; // Import MongoDB connection
 
 export async function GET() {
-  // ✅ Count active & inactive modules
-  const activeModules = modulesData.modules.filter(m => m.status === "active").length;
-  const unactiveModules = modulesData.modules.filter(m => m.status === "unactive").length;
+  try {
+    const db = await database;
 
-  // ✅ Count total users
-  const totalUsers = usersData.users.length;
+    // ✅ Count Active & Inactive Modules
+    const activeModules = await db.collection("modulemasters").countDocuments({ isActive: true });
+    const inactiveModules = await db.collection("modulemasters").countDocuments({ isActive: false });
 
-  // ✅ Count total documents
-  const totalDocuments = modulesData.modules.reduce((sum, mod) => sum + mod.documents.length, 0);
+    // ✅ Count Total Users
+    const totalUsers = await db.collection("users").countDocuments();
 
-  return NextResponse.json({ totalUsers, activeModules, unactiveModules, totalDocuments });
+    // ✅ Count Total Modules (instead of summing documents)
+    const totalModules = await db.collection("modulemasters").countDocuments(); // ✅ Get total modules count
+
+    return NextResponse.json({
+      totalUsers,
+      activeModules,
+      inactiveModules,
+      totalModules, // ✅ Now returns the total number of modules
+    });
+  } catch (error) {
+    console.error("Error fetching dashboard stats:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  }
 }
+

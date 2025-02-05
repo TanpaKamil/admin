@@ -5,7 +5,7 @@ import usersData from "@/../public/users.json"; // ✅ Load users data
 export async function GET() {
   // ✅ Count active & inactive modules
   const activeModules = modulesData.modules.filter(m => m.status === "active").length;
-  const inactiveModules = modulesData.modules.filter(m => m.status === "inactive").length;
+  const unactiveModules = modulesData.modules.filter(m => m.status === "unactive").length;
 
   // ✅ Count total users
   const totalUsers = usersData.users.length;
@@ -13,5 +13,5 @@ export async function GET() {
   // ✅ Count total documents
   const totalDocuments = modulesData.modules.reduce((sum, mod) => sum + mod.documents.length, 0);
 
-  return NextResponse.json({ totalUsers, activeModules, inactiveModules, totalDocuments });
+  return NextResponse.json({ totalUsers, activeModules, unactiveModules, totalDocuments });
 }

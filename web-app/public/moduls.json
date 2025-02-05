@@ -5,6 +5,7 @@
       "name": "Frontend Basics",
       "status": "active",
       "users": [1, 2],
+      "recommended": false,
       "documents": [
         {
           "fileName": "HTML & CSS Basics.pdf",
@@ -25,6 +26,7 @@
       "name": "Backend APIs",
       "status": "active",
       "users": [1],
+      "recommended": false,
       "documents": [
         {
           "fileName": "REST API Best Practices.pdf",
@@ -43,8 +45,9 @@
     {
       "id": 103,
       "name": "Database Management",
-      "status": "inactive",
+      "status": "unactive",
       "users": [3, 4],
+      "recommended": false,
       "documents": []
     },
     {
@@ -52,6 +55,7 @@
       "name": "ReactJS Advanced",
       "status": "active",
       "users": [2, 5, 6],
+      "recommended": true,
       "documents": [
         {
           "fileName": "Advanced React Hooks.pdf",
@@ -72,6 +76,7 @@
       "name": "Node.js Fundamentals",
       "status": "active",
       "users": [1, 3],
+      "recommended": false,
       "documents": [
         {
           "fileName": "NodeJS Async Programming.pdf",
@@ -90,8 +95,9 @@
     {
       "id": 106,
       "name": "AI & Machine Learning",
-      "status": "inactive",
+      "status": "unactive",
       "users": [7, 8],
+      "recommended": false,
       "documents": []
     },
     {
@@ -99,6 +105,7 @@
       "name": "Cloud Computing",
       "status": "active",
       "users": [4, 9],
+      "recommended": false,
       "documents": [
         {
           "fileName": "AWS Cloud Fundamentals.pdf",
@@ -117,8 +124,9 @@
     {
       "id": 108,
       "name": "Cybersecurity Essentials",
-      "status": "inactive",
+      "status": "unactive",
       "users": [10],
+      "recommended": false,
       "documents": []
     },
     {
@@ -126,6 +134,7 @@
       "name": "Data Structures & Algorithms",
       "status": "active",
       "users": [5, 6, 7],
+      "recommended": true,
       "documents": [
         {
           "fileName": "Sorting Algorithms Explained.pdf",
@@ -146,13 +155,15 @@
       "name": "DevOps Fundamentals",
       "status": "active",
       "users": [2, 8, 9],
+      "recommended": true,
       "documents": []
     },
     {
       "id": 111,
       "name": "UI/UX Design",
-      "status": "inactive",
+      "status": "unactive",
       "users": [3, 10],
+      "recommended": false,
       "documents": []
     },
     {
@@ -160,6 +171,7 @@
       "name": "Blockchain Development",
       "status": "active",
       "users": [1, 7, 9],
+      "recommended": true,
       "documents": [
         {
           "fileName": "Blockchain Smart Contracts.pdf",

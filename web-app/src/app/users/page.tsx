@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { User } from "@/types";
-import Logo from "@/../public/Logo_Adaptive.png"; // ✅ Import the logo
+import { User } from "@/types"; // Adjust the import if needed
+import Logo from "@/../public/Logo_Adaptive.png";
 
-const Users = () => {
+const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     fetchUsers();
@@ -21,6 +23,7 @@ const Users = () => {
       if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
       setUsers(data.users);
+      setFilteredUsers(data.users);
     } catch (err) {
       setError("Failed to load users");
     } finally {
@@ -28,9 +31,22 @@ const Users = () => {
     }
   };
 
-  // ✅ Toggle user status (Active <-> Inactive)
+  // ✅ Handle Search
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    const query = e.target.value.toLowerCase();
+    setFilteredUsers(
+      users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query)
+      )
+    );
+  };
+
+  // ✅ Toggle User Status (Active <-> Inactive)
   const toggleStatus = async (id: number, currentStatus: string) => {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    const newStatus = currentStatus === "active" ? "unactive" : "active";
 
     try {
       const response = await fetch(`/api/users/${id}`, {
@@ -47,6 +63,11 @@ const Users = () => {
           user.id === id ? { ...user, status: newStatus } : user
         )
       );
+      setFilteredUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === id ? { ...user, status: newStatus } : user
+        )
+      );
     } catch (error) {
       setError("Failed to update user status");
     }
@@ -57,12 +78,20 @@ const Users = () => {
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white flex flex-col items-center">
-      {/* ✅ Adaptive AI Logo */}
       <Image src={Logo} alt="Adaptive AI Logo" width={200} height={60} className="mb-6" />
 
       <h2 className="text-3xl font-bold mb-6 text-center text-white">User Management</h2>
 
-      {/* ✅ Wrap Table Inside a Scrollable Container */}
+      {/* ✅ Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by name or email..."
+        value={searchQuery}
+        onChange={handleSearch}
+        className="w-full max-w-md mb-4 p-3 border rounded-lg text-gray-900 bg-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-purple-500"
+      />
+
+      {/* ✅ Scrollable Table */}
       <div className="overflow-auto max-h-[70vh] border border-gray-700 rounded-lg shadow-md w-full">
         <table className="w-full border-collapse border border-gray-700">
           <thead className="sticky top-0 bg-gray-800 text-gray-300">
@@ -75,7 +104,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <tr key={user.id} className="text-center bg-gray-800 hover:bg-gray-700 transition">
                 <td className="border border-gray-700 p-3">{user.name}</td>
                 <td className="border border-gray-700 p-3">{user.email}</td>
@@ -92,7 +121,7 @@ const Users = () => {
                 <td className="border border-gray-700 p-3">
                   <button
                     onClick={() => toggleStatus(user.id, user.status)}
-                    className={`px-4 py-2 rounded text-white transition-all ${
+                    className={`w-[130px] px-4 py-2 rounded text-white transition-all ${
                       user.status === "active"
                         ? "bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800"
                         : "bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800"
@@ -110,4 +139,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersPage;

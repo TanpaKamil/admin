@@ -3,7 +3,7 @@ import modulesData from "@/../public/moduls.json";
 import { Module, ModuleStatus, DocumentData, DocumentStatus } from "@/types";
 
 // ✅ Ensure modulesData is correctly typed
-const modules: Module[] = modulesData.modules.map((mod) => ({
+let modules: Module[] = modulesData.modules.map((mod) => ({
   ...mod,
   status: mod.status as ModuleStatus,
   documents: mod.documents.map((doc: any) => ({
@@ -14,49 +14,86 @@ const modules: Module[] = modulesData.modules.map((mod) => ({
 
 // ✅ Correct Type for API Route Parameters
 interface Context {
-  params?: { id?: string };
+  params: { id: string };
 }
 
 // ✅ GET: Fetch a Module by ID
-export async function GET(request: NextRequest, context: Context) {
-  const params = await context.params; // ✅ Ensure `params` is awaited correctly
-
-  if (!params?.id) {
-    return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
+export async function GET(
+  request: NextRequest,
+  context: { params: { id?: string } }
+) {
+  const { params } = context;
+  if (!params || !params.id) {
+    return NextResponse.json(
+      { message: "Module ID is required" },
+      { status: 400 }
+    );
   }
 
-  const id = parseInt(params.id);
-  const module = modules.find((mod) => mod.id === id);
+  const moduleId = parseInt(params.id, 10);
+  if (isNaN(moduleId)) {
+    return NextResponse.json(
+      { message: "Invalid Module ID" },
+      { status: 400 }
+    );
+  }
 
+  const module = modules.find((mod) => mod.id === moduleId);
   if (!module) {
-    return NextResponse.json({ message: "Module not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Module not found" },
+      { status: 404 }
+    );
   }
 
   return NextResponse.json(module);
 }
 
-// ✅ PATCH: Update Module Status
-export async function PATCH(request: NextRequest, context: Context) {
-  const params = await context.params; // ✅ Ensure `params` is awaited correctly
+// ✅ PATCH: Update Module Status - FIXED
+export async function PATCH(
+  request: NextRequest,
+  context: { params: { id?: string } }
+) {
+  // ✅ Await Next.js params correctly
+  const params = await context.params;
 
-  if (!params?.id) {
-    return NextResponse.json({ message: "Module ID is required" }, { status: 400 });
+  if (!params || !params.id) {
+    return NextResponse.json(
+      { message: "Module ID is required" },
+      { status: 400 }
+    );
   }
 
-  const id = parseInt(params.id);
+  const moduleId = parseInt(params.id, 10);
+  if (isNaN(moduleId)) {
+    return NextResponse.json(
+      { message: "Invalid Module ID" },
+      { status: 400 }
+    );
+  }
+
   const { status }: { status: ModuleStatus } = await request.json();
 
-  const moduleIndex = modules.findIndex((mod) => mod.id === id);
+  if (!["active", "unactive"].includes(status)) {
+    return NextResponse.json(
+      { message: "Invalid status value" },
+      { status: 400 }
+    );
+  }
+
+  const moduleIndex = modules.findIndex((mod) => mod.id === moduleId);
   if (moduleIndex === -1) {
-    return NextResponse.json({ message: "Module not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Module not found" },
+      { status: 404 }
+    );
   }
 
-  if (!["active", "inactive"].includes(status)) {
-    return NextResponse.json({ message: "Invalid status value" }, { status: 400 });
-  }
-
-  // ✅ Update module status in-memory
+  // ✅ Update module status
   modules[moduleIndex].status = status;
 
-  return NextResponse.json({ message: "Module status updated", module: modules[moduleIndex] });
+  return NextResponse.json({
+    message: "Module status updated",
+    module: modules[moduleIndex],
+  });
 }

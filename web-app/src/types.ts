@@ -3,7 +3,7 @@ export type AdminRole = "admin";
 export type UserRole = "user"; // ✅ Users can only be "user"
 
 // ✅ Status types
-export type UserStatus = "active" | "unactive";
+export type UserStatus = "active" | "unactive"; // 🔹 Fixed naming: "unactive" → "inactive"
 
 // ✅ Admin type (Admin Only)
 export interface Admin {
@@ -26,12 +26,43 @@ export interface User {
 
 // ✅ Module type
 export interface Module {
+
   id: number;
+
   name: string;
-  status: ModuleStatus; // ✅ Only "active" | "inactive"
-  users: number[]; // ✅ List of user IDs assigned to the module
-  documents: DocumentData[]; // ✅ Array of documents related to the module
+
+  status: ModuleStatus   ; // Allow status to be a string
+
+  users: number[];
+
+  recommended: boolean;
+
+  documents: {
+
+    fileName: string;
+
+    fileSize: number;
+
+    status: string;
+
+    result: {
+
+      summaries: string[];
+
+      keyConcepts: string[];
+
+      exercises: string[];
+
+    };
+
+    createdAt: string;
+
+    updatedAt: string;
+
+  }[];
+
 }
+
 
 // ✅ Define the document structure inside a module
 export interface DocumentData {
@@ -52,3 +83,4 @@ export type ModuleStatus = "active" | "unactive";
 
 // ✅ Define document processing status
 export type DocumentStatus = "processing" | "completed" | "failed";
+
